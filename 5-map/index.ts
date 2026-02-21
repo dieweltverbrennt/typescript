@@ -53,8 +53,8 @@ class Map {
       if(current.next) {
         current = current.next;
       }
+      return undefined
     }
-    return undefined
   }
 
   delete(key: any): boolean {
@@ -67,12 +67,14 @@ class Map {
         if(prev) {
           prev.next = current.next 
         } else {
-          this.buckets.filter((item: KeyValuePair, idx: number) => idx !== index)
+          this.buckets = this.buckets.filter((item: KeyValuePair, idx: number) => idx !== index)
         }
         return true
       }
       prev = current;
-      if(current.next) current = current.next;
+      if(current.next) {
+        current = current.next;
+      } else return false
     }
       return false;
   }
