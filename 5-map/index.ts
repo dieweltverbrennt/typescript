@@ -4,8 +4,10 @@ interface KeyValuePair {
   next: KeyValuePair | null
 }
 
+type MapObjet = KeyValuePair | null
+
 class Map {
-  private buckets: KeyValuePair[] = [];
+  private buckets: MapObjet[] = [];
 
   private hash(key: any): number {
     const stringKey = String(key);  // "name" -> "name", 123 -> "123"
@@ -50,11 +52,10 @@ class Map {
       if (current.key === key) {
         return current.value;
       }
-      if(current.next) {
-        current = current.next;
-      }
-      return undefined
+      current = current.next;
     }
+    
+    return undefined
   }
 
   delete(key: any): boolean {
@@ -67,16 +68,15 @@ class Map {
         if(prev) {
           prev.next = current.next 
         } else {
-          this.buckets = this.buckets.filter((item: KeyValuePair, idx: number) => idx !== index)
+          this.buckets[index] = current.next
         }
         return true
       }
       prev = current;
-      if(current.next) {
-        current = current.next;
-      } else return false
+      current = current.next;
     }
-      return false;
+
+    return false;
   }
   
   clear() {
